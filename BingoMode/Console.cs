@@ -1,6 +1,4 @@
 ﻿using BingoMode.BingoSteamworks;
-using DevConsole;
-using DevConsole.Commands;
 
 namespace BingoMode
 {

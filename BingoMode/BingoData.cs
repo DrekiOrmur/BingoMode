@@ -54,20 +54,26 @@ namespace BingoMode
             public BingoGameMode gamemode;
             public bool showedWin;
             public bool firstCycleSaved;
-            public bool passageUsed;
+            //public bool passageUsed;
+            public int passageStart;
+            public int passageBonus;
+            public int passageUsed;
             public string teamsInBingo;
             public bool songPlayed;
 
-            public BingoSaveData(int size, bool showedWin, int team, bool firstCycleSaved, bool passageUsed)
+            public BingoSaveData(int size, bool showedWin, int team, bool firstCycleSaved, int passageStart, int passageBonus, int passageUsed)
             {
                 this.size = size;
                 this.showedWin = showedWin;
                 this.team = team;
                 this.firstCycleSaved = firstCycleSaved;
+                //this.passageUsed = passageUsed;
+                this.passageStart = passageStart;
+                this.passageBonus = passageBonus;
                 this.passageUsed = passageUsed;
-            }
+        }
 
-            public BingoSaveData(int size, int team, SteamNetworkingIdentity hostID, bool isHost, string playerWhiteList, BingoGameMode gamemode, bool showedWin, bool firstCycleSaved, bool passageUsed, string teamsInBingo, bool songPlayed)
+            public BingoSaveData(int size, int team, SteamNetworkingIdentity hostID, bool isHost, string playerWhiteList, BingoGameMode gamemode, bool showedWin, bool firstCycleSaved, int passageStart, int passageBonus, int passageUsed, string teamsInBingo, bool songPlayed)
             {
                 this.size = size;
                 this.team = team;
@@ -77,6 +83,9 @@ namespace BingoMode
                 this.gamemode = gamemode;
                 this.showedWin = showedWin;
                 this.firstCycleSaved = firstCycleSaved;
+                //this.passageUsed = passageUsed;
+                this.passageStart = passageStart;
+                this.passageBonus = passageBonus;
                 this.passageUsed = passageUsed;
                 this.teamsInBingo = teamsInBingo;
                 this.songPlayed = songPlayed;

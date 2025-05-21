@@ -353,9 +353,9 @@ namespace BingoMode
 
             if (message == "HOLD TO START")
             {
-                if (BingoData.BingoSaves.TryGetValue(ExpeditionData.slugcatPlayer, out var data) && !data.passageUsed)
+                if (BingoData.BingoSaves.TryGetValue(ExpeditionData.slugcatPlayer, out var data) && (data.passageStart + data.passageBonus - data.passageUsed > 0))
                 {
-                    data.passageUsed = true;
+                    data.passageUsed++;
                     BingoSaveFile.Save();
                 }
             }
@@ -519,16 +519,15 @@ namespace BingoMode
         {
             if (BingoData.BingoMode)
             {
-                bool available = false;
-                if (BingoData.BingoSaves.TryGetValue(ExpeditionData.slugcatPlayer, out var data) && !data.passageUsed)
+                if (BingoData.BingoSaves.TryGetValue(ExpeditionData.slugcatPlayer, out var data) && (data.passageStart + data.passageBonus - data.passageUsed > 0))
                 {
-                    available = true;
-                }
+                    ExpeditionData.earnedPassages = (data.passageStart + data.passageBonus - data.passageUsed);
+                }                
 
                 self.expPassage = new SimpleButton(self, self.pages[0], self.Translate("PASSAGE"), "EXPPASSAGE", new Vector2(self.LeftHandButtonsPosXAdd + self.manager.rainWorld.options.SafeScreenOffset.x, Mathf.Max(self.manager.rainWorld.options.SafeScreenOffset.y, 15f)), new Vector2(110f, 30f));
                 self.pages[0].subObjects.Add(self.expPassage);
                 self.expPassage.lastPos = self.expPassage.pos;
-                MenuLabel menuLabel = new MenuLabel(self, self.pages[0], self.Translate("AVAILABLE: ") + (available ? "1" : "0"), new Vector2(self.expPassage.pos.x + self.expPassage.size.x / 2f, self.expPassage.pos.y + 45f), default(Vector2), false, null);
+                MenuLabel menuLabel = new MenuLabel(self, self.pages[0], self.Translate("AVAILABLE: ") + (data.passageStart + data.passageBonus - data.passageUsed), new Vector2(self.expPassage.pos.x + self.expPassage.size.x / 2f, self.expPassage.pos.y + 45f), default(Vector2), false, null);
                 menuLabel.label.color = new Color(0.7f, 0.7f, 0.7f);
                 self.pages[0].subObjects.Add(menuLabel);
                 return;
@@ -622,7 +621,7 @@ namespace BingoMode
 
             if (BingoData.BingoSaves.TryGetValue(ExpeditionData.slugcatPlayer, out var data))
             {
-                self.expPassage.buttonBehav.greyedOut = data.passageUsed;
+                self.expPassage.buttonBehav.greyedOut = (data.passageStart + data.passageBonus - data.passageUsed == 0);
             }
 
             if (self.hud == null || self.hud.parts == null || self.killsDisplay == null) return;
